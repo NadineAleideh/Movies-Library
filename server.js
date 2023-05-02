@@ -1,17 +1,13 @@
 const express = require('express');
-const data = require('./Movie Data/data.json');
+const data = require('./Movie_Data/data.json');
 const server = express();
 const PORT = 3000;
 
 //Routes
 //localhost:3000/
 server.get('/', (req, res) => {
-    const returnedData = {
-        "title": data.title,
-        "poster_path": data.poster_path,
-        "overview": data.overview
-    }
-    res.status(200).send(returnedData);
+   let movie=new Movie(data.title,data.poster_path,data.overview);
+    res.status(200).send(movie);
 })
 
 //localhost:3000/favorite
@@ -29,6 +25,11 @@ server.use((err, req, res, next) => {
     res.status(500).send("Server error !");
 })
 
+function Movie(title,poster_path,overview){
+    this.title=title;
+    this.poster_path=poster_path;
+    this.overview=overview;
+}
 server.listen(PORT, () => {
     console.log(`Listening on ${PORT}: I'm ready`)
 });
