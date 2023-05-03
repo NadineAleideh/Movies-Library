@@ -50,7 +50,7 @@ function trendingMoviesHandler(req, res) {
 //Search for a movie with query "the" on TMDB
 function searchMoviesHandler(req, res) {
 
-    const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&query=The&page=2`
+    const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&query=${"Love"}&page=2`
     try {
         axios.get(url)
             .then(result => {
@@ -175,7 +175,6 @@ function popularPeopleHandler(req, res) {
         errorHandler(error, req, res)
     }
 }
-
 
 
 //Create a function to handle "server error" status(500)
