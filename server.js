@@ -5,10 +5,14 @@ const cors = require('cors');
 // const data = require('./Movie_Data/data.json');
 const server = express();
 require('dotenv').config();
+
+const pg = require('pg');
+const client = new pg.Client('postgresql://localhost:5432/lab15');
+server.use(express.json());// Middleware function If I want to read data from post request method, because the passed data should be wrriten in json format
+
 const apiKey = process.env.api_key;
 const PORT = 3000;
-
-server.use(cors())   // Middleware function 
+server.use(cors());   // Middleware function 
 const axios = require('axios');
 
 
@@ -19,7 +23,41 @@ server.get('/upcoming', upcominghMoviesHandler)
 server.get('/tvShowsPopular', tvShowsPopularHandler)
 server.get('/popularPeople', popularPeopleHandler)
 
+//Lab15 routes:
+server.get('/getMovies', getMoviesHandler)
+server.post('/addMovies', addMovieHandler)
+
 server.get('*', defaultHandler)
+
+//Lab15 functions:
+function addMovieHandler(req, res) {
+    const movie = req.body;
+    console.log(movie);
+    const sql = `INSERT INTO movie (title, release_date, poster_path, overview)
+    VALUES ($1, $2, $3, $4);`
+    const values = [movie.title, movie.release_date, movie.poster_path, movie.overview];
+    client.query(sql, values)
+        .then(data => {
+            res.send("The movie has been added successfully");
+        })
+        .catch((error) => {
+            errorHandler(error, req, res)
+        })
+}
+
+function getMoviesHandler(req, res) {
+    // Retrive all movies from my database which is lab15
+    const sql = `SELECT * FROM movie`;
+    client.query(sql)
+        .then(data => {
+            res.send(data.rows);//.rows in order to git just the records
+        })
+
+        .catch((error) => {
+            errorHandler(error, req, res)
+        })
+}
+
 
 
 //Get the all (Include all movies, TV shows and people in the results as a global trending list) weekly(View the trending list for the week) trending items
@@ -176,7 +214,6 @@ function popularPeopleHandler(req, res) {
     }
 }
 
-
 //Create a function to handle "server error" status(500)
 function errorHandler(error, req, res) {
     const err = {
@@ -191,6 +228,9 @@ function defaultHandler(req, res) {
     res.status(404).send('page not found !')
 }
 
+
+
+//constructors:
 function Item(id, title, release_date, poster_path, overview) {
     this.id = id;
     this.title = title;
@@ -218,9 +258,11 @@ function Person(name, gender, known_for_department, known_for) {
     })
 }
 
-server.listen(PORT, () => {
-    console.log(`Listening on ${PORT}: I'm ready`)
-});
-
+client.connect()
+    .then(() => {
+        server.listen(PORT, () => {
+            console.log(`Listening on ${PORT}: I'm ready`)
+        })
+    })
 
 
