@@ -1,29 +1,35 @@
 # Movies-Library
 
-# Movies-Library - Project Version 2.0
+# Movies-Library - Project Version 3.0
 
 **Author Name**: Nadine Aleideh
 
 ## WRRC
-![WRRC](./WRRC2.png)
+![WRRC](./WRRC3.png)
 
 ## Overview
 
-This project is a movie app that can check the latest movies based on categories, trending items, search for a movie, popular tv shows, popular people. And in this second version of the project I'm featching the data to display in our server from the (TMDB) 3rd party API, so I did a request from my server to the (TMDB) 3rd party API server to git the data.
+This project is a movie app that can check the latest movies based on categories, trending items, search for a movie, popular tv shows, popular people. And in this third version of the project I'm creating a new style of storage which is database using the **postgresSQL server** to store in the database any moive information the client want and to retrive these moives from the database , so I did a request and connection from my server to the **postgresSQL server** to ables me doing these stuff.
 
 ## Getting Started
 
  The steps that you must take on your terminal in order to build this app on your own machine and get it running:
 
- 1. Clone this repository
- 2. Run ***npm init -y***
- 3. Run ***npm install***
- 4. Run ***npm install axios dotenv cors***
- 5. Run ***npm start*** in order to start the server running.
- 6. Advise you to Run  ***npm i -g nodemon*** for the first time and Run ***nodemon*** to atuo RE-Run the server insted of run ***npm start*** each time after making any changes in the **server.js file**
- 7. If you want to make changes and get new data => You must go to this website [THE MOVIE DB](https://developers.themoviedb.org/3/getting-started) and :
-    - Create a new account if you don’t have one.
-    - Get your API key.
+ 1. Clone this repository using the SSH link .
+
+ 2. Go to the **package-lock.json** then check the equired packages in **dependencies object** in order to install them ***npm install package1Name   package2Name ...*** like: ***npm install axios dotenv cors pg***.
+
+ 3. Run ***npm start*** in order to start the server running.
+
+ 4. Advise you to Run  ***npm i -g nodemon*** for the first time and Run ***nodemon*** to atuo RE-Run the server insted of run ***npm start*** each time after making any changes in the **server.js file**.
+
+ 5. To start postgerSQL server type: ***sqlstart*** and To stop it type: ***sqlstop***.
+
+ 6. To open postgerSQL shell server (SSL mode) type: ***psql*** and To quit it type: ***\q*** .
+
+ 7. After open postgerSQL shell server creat a database and pass its name in the server.js file at this line **const client = new pg.Client('postgresql://localhost:5432/***Your-db-name***')** and, Run this command in the CLI of our server ***psql -d ***Your-db-name*** -f schema.sql;***.
+
+ 8. You can google the queries syntax you would to use, and you can check this [Link](https://hasura.io/blog/top-psql-commands-and-flags-you-need-to-know-postgresql/) to handle with the postgerSQL shell server (SSL mode).
 
 ## Project Features
 
@@ -42,4 +48,11 @@ This project is a movie app that can check the latest movies based on categories
 - I configured error handlers:
 
   1.  to handle the server error (status 500).
-  2.  to handle "page not found error" (status 404).
+  2.  to handle "page not found error" (status 404).   
+  
+
+
+- The **new** configration that I added is a post request to save a specific movie to database along with my personal comments by using this url in the thunder **localhost:3000/addMovies**.
+
+- Also I configured a movie Page Endpoint **localhost:3000/getMovies** this page will retrive all the movies stored in the database.
+
