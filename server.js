@@ -23,9 +23,18 @@ server.get('/upcoming', upcominghMoviesHandler)
 server.get('/tvShowsPopular', tvShowsPopularHandler)
 server.get('/popularPeople', popularPeopleHandler)
 
+
 //Lab15 routes:
 server.get('/getMovies', getMoviesHandler)
-server.post('/addMovies', addMovieHandler)
+server.post('/getMovies', addMovieHandler)
+
+
+
+//Lab16 routes:
+server.put('/getMovies/:id', updateMoviesHandler)
+server.delete('/getMovies/:id', deleteMoviesHandler)
+server.get('/getMoviesById', geteMoviesByIdHandler)
+
 
 server.get('*', defaultHandler)
 
@@ -44,7 +53,6 @@ function addMovieHandler(req, res) {
             errorHandler(error, req, res)
         })
 }
-
 function getMoviesHandler(req, res) {
     // Retrive all movies from my database which is lab15
     const sql = `SELECT * FROM movie`;
@@ -53,6 +61,51 @@ function getMoviesHandler(req, res) {
             res.send(data.rows);//.rows in order to git just the records
         })
 
+        .catch((error) => {
+            errorHandler(error, req, res)
+        })
+}
+
+
+
+//Lab16 functions:
+function updateMoviesHandler(req, res) {
+    const { id } = req.params;
+    console.log(req.body);
+    const sql = `UPDATE movie
+    SET title = $1, release_date = $2, poster_path = $3, overview = $4
+    WHERE id = ${id};`
+    const { title, release_date, poster_path, overview } = req.body;
+    const values = [title, release_date, poster_path, overview];
+    client.query(sql, values).then((data) => {
+        res.send(data)
+    })
+        .catch((error) => {
+            errorHandler(error, req, res)
+        })
+}
+
+function deleteMoviesHandler(req, res) {
+    const id = req.params.id;
+    console.log(req.params);
+    const sql = `DELETE FROM movie WHERE id=${id};`
+    client.query(sql)
+        .then((data) => {
+            res.status(202).send(data)
+        })
+        .catch((error) => {
+            errorHandler(error, req, res)
+        })
+}
+
+function geteMoviesByIdHandler(req, res) {
+    let id = req.query.id;
+    console.log(req.query);
+    const sql = `SELECT * FROM movie WHERE id = ${id};`
+    client.query(sql)
+        .then((data) => {
+            res.send(data.rows)
+        })
         .catch((error) => {
             errorHandler(error, req, res)
         })
