@@ -5,7 +5,7 @@
 **Author Name**: Nadine Aleideh
 
 ## WRRC
-![WRRC](./WRRC3.png)
+![WRRC](./assets/WRRC3.png)
 
 ## Overview
 
