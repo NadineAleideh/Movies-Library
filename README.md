@@ -1,6 +1,6 @@
 # Movies-Library
 
-# Movies-Library - Project Version 3.0
+# Movies-Library - Project Version 4.0
 
 **Author Name**: Nadine Aleideh
 
@@ -9,7 +9,7 @@
 
 ## Overview
 
-This project is a movie app that can check the latest movies based on categories, trending items, search for a movie, popular tv shows, popular people. And in this third version of the project I'm creating a new style of storage which is database using the **postgresSQL server** to store in the database any moive information the client want and to retrive these moives from the database , so I did a request and connection from my server to the **postgresSQL server** to ables me doing these stuff.
+This project is a movie app that can check the latest movies based on categories, trending items, search for a movie, popular tv shows, popular people. And in this third version of the project I'm creating a new style of storage which is database using the **postgresSQL server** to store in the database any moive information that any client want and to retrive these moives from the database and updating it, so I did a request and connection from my server to the **postgresSQL server** to ables me doing these stuff.
 
 ## Getting Started
 
@@ -52,7 +52,12 @@ This project is a movie app that can check the latest movies based on categories
   
 
 
-- The **new** configration that I added is a post request to save a specific movie to database along with my personal comments by using this url in the thunder **localhost:3000/addMovies**.
+- I configured a post request to save a specific movie to database along with my personal comments by using this url in the thunder **localhost:3000/addMovies**.
 
-- Also I configured a movie Page Endpoint **localhost:3000/getMovies** this page will retrive all the movies stored in the database.
+- configured a movie Page Endpoint **localhost:3000/getMovies** this page will retrive all the movies stored in the database.
 
+- The **new** configration that I added is a delete request to delete a specific movie from the database by its ID, by typing in the url **localhost:3000/getMovies/:id'**. For example if you typed in the url : **localhost:3000/getMovies/1** it will delete the movie with the id =1 .
+
+- I configured a movie Page Endpoint **localhost:3000/getMoviesById** this page will retrive a specific movie by its ID from the database. For example if you typed in the url : **localhost:3000/getMoviesById/id=1** it will retrive the movie with the id =1 .
+
+- Also I configured a movie Page Endpoint **localhost:3000/getMovies/:id'** it is an update request to update your comments for a specific movie in the database. For example if you typed in the url :  **localhost:3000/getMovies/1** it will update the movie with the id =1 .
