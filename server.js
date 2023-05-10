@@ -2,12 +2,12 @@
 
 const express = require('express');
 const cors = require('cors');
-// const data = require('./Movie_Data/data.json');
+const data = require('./Movie_Data/data.json');
 const server = express();
 require('dotenv').config();
 
 const pg = require('pg');
-const client = new pg.Client('postgresql://localhost:5432/lab15');
+const client = new pg.Client(process.env.DATABASE_URL);
 server.use(express.json());// Middleware function If I want to read data from post request method, because the passed data should be wrriten in json format
 
 const apiKey = process.env.api_key;
@@ -16,6 +16,22 @@ server.use(cors());   // Middleware function
 const axios = require('axios');
 
 
+
+//Lab13 routes:
+//localhost:3000/
+server.get('/', (req, res) => {
+    let movie=new Movie(data.title,data.poster_path,data.overview);
+     res.status(200).send(movie);
+ })
+
+//localhost:3000/favorite
+server.get('/favorite', (req, res) => {
+    res.status(200).send("Welcome to Favorite Page");
+})
+
+
+
+//Lab14 routes:
 server.get('/trending', trendingMoviesHandler)
 server.get('/search', searchMoviesHandler)
 server.get('/topRated', topRatedhMoviesHandler)
@@ -29,12 +45,10 @@ server.get('/getMovies', getMoviesHandler)
 server.post('/getMovies', addMovieHandler)
 
 
-
 //Lab16 routes:
 server.put('/getMovies/:id', updateMoviesHandler)
 server.delete('/getMovies/:id', deleteMoviesHandler)
 server.get('/getMoviesById', geteMoviesByIdHandler)
-
 
 server.get('*', defaultHandler)
 
@@ -284,6 +298,12 @@ function defaultHandler(req, res) {
 
 
 //constructors:
+function Movie(title,poster_path,overview){
+    this.title=title;
+    this.poster_path=poster_path;
+    this.overview=overview;
+}
+
 function Item(id, title, release_date, poster_path, overview) {
     this.id = id;
     this.title = title;
